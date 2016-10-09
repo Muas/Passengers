@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Passengers.Models.Passenger>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@Html.ActionLink("Добавить пассажира", "Create")
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Имя
+        </th>
+        <th>
+            Тип пассажира
+        </th>
+        <th>
+            Дата рождения
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var passenger in Model)
+    {
+        <tr>
+            <td>
+                @passenger.Name
+            </td>
+            <td>
+                @Html.DisplayFor(m => passenger.PassengerType)
+            </td>
+            <td>@passenger.BirthDate</td>
+            <td>@Html.ActionLink("Edit", "Edit", new {@class = "btn btn-default", @id = passenger.Id})</td>
+        </tr>
+    }
+    </tbody>
+</table>
