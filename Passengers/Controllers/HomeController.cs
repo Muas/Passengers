@@ -4,11 +4,19 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Passengers.Models;
+using Passengers.Validators;
 
 namespace Passengers.Controllers
 {
 	public class HomeController : Controller
 	{
+		private readonly IModelValidator<Passenger> _passengerValidator;
+
+		public HomeController(IModelValidator<Passenger> passengerValidator)
+		{
+			_passengerValidator = passengerValidator;
+		}
+
 		public ActionResult Index()
 		{
 			var passengers = new List<Passenger>() { new Passenger()
@@ -25,14 +33,16 @@ namespace Passengers.Controllers
 		
 		public ActionResult Save(Passenger model)
 		{
-			if (ModelState.IsValid)
+			var errors = _passengerValidator.Validate(model);
+			foreach (var error in errors)
 			{
-				return RedirectToAction("Index");
+				ModelState.AddModelError(error.Key, error.Value);
 			}
-			else
+			if (!ModelState.IsValid)
 			{
 				return View("Create", model);
 			}
+			return RedirectToAction("Index");
 		}
 
 		public ActionResult Edit(string @class, int id)

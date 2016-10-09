@@ -9,6 +9,7 @@ namespace Passengers.Models
 		[HiddenInput(DisplayValue = false)]
 		public int Id { get; set; }
 		[Required]
+		[RegularExpression(@"^[А-Я][а-я\-]*", ErrorMessage = @"Поле Имя должно содержать только буквы русского алфавита")]
 		[Display(Name = @"Имя")]
 		public string Name { get; set; }
 		[Required]
@@ -16,9 +17,7 @@ namespace Passengers.Models
 		public PassengerType PassengerType { get; set; }
 		[Required]
 		[Display(Name = @"Дата рождения")]
-//		[DataType(DataType.Date)]
 		[UIHint("DateTime")]
-//		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
 		public DateTime BirthDate { get; set; } 
 	}
 }
