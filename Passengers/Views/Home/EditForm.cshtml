@@ -1,6 +1,6 @@
 ﻿@model Passengers.Models.Passenger
 
-@using (Html.BeginForm("Save", "Home", FormMethod.Post))
+@using (Html.BeginForm("Save", "Home", FormMethod.Post, htmlAttributes: new{@class = "js-edit-passenger-form"}))
 {
     @Html.EditorForModel()
     <input type="submit" value="Сохранить" class="btn btn-default" />

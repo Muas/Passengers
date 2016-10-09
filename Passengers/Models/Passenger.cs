@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Passengers.Attributes;
 
 namespace Passengers.Models
 {
@@ -9,7 +10,7 @@ namespace Passengers.Models
 		[HiddenInput(DisplayValue = false)]
 		public int Id { get; set; }
 		[Required]
-		[RegularExpression(@"^[А-Я][а-я\-]*", ErrorMessage = @"Поле Имя должно содержать только буквы русского алфавита")]
+		[RegularExpression(@"^[А-Я][а-я\-]*$", ErrorMessage = @"Поле Имя должно содержать только буквы русского алфавита")]
 		[Display(Name = @"Имя")]
 		public string Name { get; set; }
 		[Required]
@@ -18,6 +19,7 @@ namespace Passengers.Models
 		[Required]
 		[Display(Name = @"Дата рождения")]
 		[UIHint("DateTime")]
+		[DateTimeRange("01.01.1900")]
 		public DateTime BirthDate { get; set; } 
 	}
 }

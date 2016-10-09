@@ -22,11 +22,14 @@ namespace Passengers
 				"~/Scripts/bootstrap.js",
 				"~/Scripts/respond.js",
 				"~/Scripts/moment.js",
-				"~/Scripts/bootstrap-datetimepicker.js"
+				"~/Scripts/bootstrap-select.js",
+				"~/Scripts/bootstrap-datetimepicker.js",
+				"~/Scripts/site.js"
 				));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",
+					  "~/Content/bootstrap-select.css",
 					  "~/Content/site.css"));
 		}
 	}
