@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using AutoMapper;
 using Passengers.Data.Repositories;
 using Passengers.Extensions;
@@ -7,6 +8,7 @@ using Passengers.Validators;
 
 namespace Passengers.Controllers
 {
+	[RoutePrefix("railway")]
 	public class HomeController : Controller
 	{
 		private readonly IModelValidator<Passenger> _passengerValidator;
@@ -18,8 +20,32 @@ namespace Passengers.Controllers
 			_passengerValidator = passengerValidator;
 			_repository = repository;
 			_mapper = mapper;
+
+			InitializeRepository();
 		}
 
+		private static bool _isInitialized;
+
+		private void InitializeRepository()
+		{
+			if (_isInitialized) return;
+
+			_isInitialized = true;
+			_repository.Create(new Data.Passenger
+			{
+				Name = "Иван",
+				BirthDate = new DateTime(1965, 8, 16),
+				PassengerType = PassengerType.Adult.ToString()
+			});
+			_repository.Create(new Data.Passenger
+			{
+				Name = "Василиса",
+				BirthDate = new DateTime(2007, 12, 28),
+				PassengerType = PassengerType.Child.ToString()
+			});
+		}
+
+		[Route("passengers", Name = "passengers")]
 		public ActionResult Index()
 		{
 			var passengers = _repository.Get(filter: null)
@@ -27,12 +53,9 @@ namespace Passengers.Controllers
 			return View(passengers);
 		}
 
-		public ActionResult Create()
-		{
-			return View(new Passenger());
-		}
-		
-		public ActionResult Save(Passenger model)
+		[HttpPost]
+		[Route("info/save", Name = "save")]
+		public ActionResult Save(Passenger model, int? id = null)
 		{
 			var errors = _passengerValidator.Validate(model);
 			foreach (var error in errors)
@@ -43,7 +66,7 @@ namespace Passengers.Controllers
 			{
 				return View("Create", model);
 			}
-			if (model.Id == 0)
+			if ((id ?? model.Id) == 0)
 			{
 				_repository.Create(_mapper.Map<Data.Passenger>(model));
 			}
@@ -54,12 +77,19 @@ namespace Passengers.Controllers
 					return HttpNotFound();
 			}
 
-			return RedirectToAction("Index");
+			return RedirectToRoute("passengers");
 		}
 
-		public ActionResult Edit(int id)
+		[HttpGet]
+		[Route("info", Name = "editPassenger")]
+		public ActionResult Edit(int? id)
 		{
-			var entity = _repository.Get(id);
+			if (id == null)
+			{
+				return View(new Passenger());
+			}
+
+			var entity = _repository.Get(id.Value);
 			if (entity == null)
 				return HttpNotFound();
 			return View(_mapper.Map<Passenger>(entity));

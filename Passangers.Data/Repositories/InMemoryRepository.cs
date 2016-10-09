@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,45 +8,45 @@ namespace Passengers.Data.Repositories
 {
 	public class InMemoryRepository<T> : IRepository<T> where T : class, IEntity
 	{
-		private readonly ConcurrentDictionary<int, T> _storage = new ConcurrentDictionary<int, T>();
-		private int _lastId = 0;
+		protected readonly ConcurrentDictionary<int, T> Storage = new ConcurrentDictionary<int, T>();
+		protected int LastId = 0;
 
-		public T Create(T entity)
+		public virtual T Create(T entity)
 		{
 			if(entity == null)
 				throw new NullReferenceException("entity");
-			entity.Id = ++_lastId;
-			_storage.TryAdd(entity.Id, entity);
+			entity.Id = ++LastId;
+			Storage.TryAdd(entity.Id, entity);
 			return entity;
 		}
 
-		public T Get(int id)
+		public virtual T Get(int id)
 		{
 			T value;
-			return _storage.TryGetValue(id, out value)
+			return Storage.TryGetValue(id, out value)
 				? value
 				: null;
 		}
 
-		public IEnumerable<T> Get(Expression<Func<T, bool>> filter)
+		public virtual IEnumerable<T> Get(Expression<Func<T, bool>> filter)
 		{
 			return filter == null
-				? _storage.Values
-				: _storage.Values.Where(filter.Compile());
+				? Storage.Values
+				: Storage.Values.Where(filter.Compile());
 		}
 
-		public T Update(int id, T entity)
+		public virtual T Update(int id, T entity)
 		{
 			if (entity == null)
 				throw new NullReferenceException("entity");
 			T value;
-			return _storage.TryGetValue(id, out value) && _storage.TryUpdate(entity.Id, entity, value) ? entity : null;
+			return Storage.TryGetValue(id, out value) && Storage.TryUpdate(entity.Id, entity, value) ? entity : null;
 		}
 
-		public T Delete(int id)
+		public virtual T Delete(int id)
 		{
 			T value;
-			return _storage.TryRemove(id, out value)
+			return Storage.TryRemove(id, out value)
 				? value
 				: null;
 		}

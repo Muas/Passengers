@@ -128,6 +128,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\EnumRangeAttribute.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extensions\AutomapperExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
@@ -271,6 +272,10 @@
     <Content Include="Views\Home\EditForm.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PassengerType.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\ServerError.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\PassengerType.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Object.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

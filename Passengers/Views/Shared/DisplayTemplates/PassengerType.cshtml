@@ -1,0 +1,5 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Passengers.Extensions
+@model Passengers.Models.PassengerType
+
+@(Model.GetAttribute<DisplayAttribute>().Name)

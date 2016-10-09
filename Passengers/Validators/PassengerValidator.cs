@@ -25,7 +25,7 @@ namespace Passengers.Validators
 			{
 				var attribute = model.PassengerType.GetAttribute<EnumRangeAttribute>();
 				var now = _dateTime.GetDate();
-				if (model.BirthDate.AddYears(attribute.Maximum) < now || model.BirthDate.AddYears(attribute.Minimum) >= now) 
+				if (model.BirthDate.AddYears(attribute.Maximum) <= now || model.BirthDate.AddYears(attribute.Minimum) >= now) 
 					yield return new KeyValuePair<string, string>("PassengerType", @"Выбранный тип пассажира не соответствует возрасту пассажира");
 			}
 		}

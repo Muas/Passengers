@@ -3,7 +3,7 @@
     ViewBag.Title = "Home Page";
 }
 
-@Html.ActionLink("Добавить пассажира", "Create")
+@Html.RouteLink(linkText: "Добавить пассажира", routeName: "editPassenger", routeValues: new{}, htmlAttributes: new {@class = "btn btn-default"})
 
 <table class="table">
     <thead>
@@ -30,8 +30,8 @@
             <td>
                 @Html.DisplayFor(m => passenger.PassengerType)
             </td>
-            <td>@passenger.BirthDate</td>
-            <td>@Html.ActionLink("Edit", "Edit", new {@class = "btn btn-default", @id = passenger.Id})</td>
+            <td>@passenger.BirthDate.ToString("dd.MM.yyyy")</td>
+            <td>@Html.RouteLink("Редактировать", "editPassenger", new { @id = passenger.Id }, new { @class = "btn btn-default" })</td>
         </tr>
     }
     </tbody>

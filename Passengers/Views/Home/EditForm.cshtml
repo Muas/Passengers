@@ -1,19 +1,19 @@
 ﻿@model Passengers.Models.Passenger
-<script src="../../Scripts/moment.js"></script>
+
 @using (Html.BeginForm("Save", "Home", FormMethod.Post))
 {
     @Html.EditorForModel()
     <input type="submit" value="Сохранить" class="btn btn-default" />
 }
-@Html.ActionLink("К списку пассажиров", "Index")
+@Html.RouteLink("К списку пассажиров", "passengers")
 
 <script>
     $(document).ready(function () {
 
         
-        $('.datepicker').datepicker({
-            language: "ru",
-            autoclose: true
+        $('.datepicker').datetimepicker({
+            language: "ru"
+//            autoclose: true
         });
     });
 </script>
