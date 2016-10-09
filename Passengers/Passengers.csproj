@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="SimpleInjector, Version=3.2.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.3.2.2\lib\net45\SimpleInjector.dll</HintPath>
@@ -125,10 +129,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\EnumRangeAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Extensions\AutomapperExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mappings\PassengerProfile.cs" />
     <Compile Include="Models\Passenger.cs" />
     <Compile Include="Models\PassengerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,6 +283,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Passangers.Data\Passengers.Data.csproj">
+      <Project>{8aeea0d7-b87c-4c84-8754-b3977c8289e3}</Project>
+      <Name>Passengers.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Passengers.Common\Passengers.Common.csproj">
       <Project>{94e4cba3-9310-429f-bc68-76b953ba8f27}</Project>
       <Name>Passengers.Common</Name>

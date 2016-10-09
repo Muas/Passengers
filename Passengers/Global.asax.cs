@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AutoMapper;
+using Passengers.Mappings;
 using Passengers.Validators;
 using SimpleInjector;
 using SimpleInjector.Integration.Web;
@@ -29,7 +31,15 @@ namespace Passengers
 
 			container.Register(typeof (IModelValidator<>), new[] {Assembly.GetExecutingAssembly()}, Lifestyle.Singleton);
 			container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
+
+			var config = new MapperConfiguration(cfg =>
+			{
+				cfg.AddProfile<PassengerProfile>();
+			});
+			container.Register(() => config.CreateMapper());
+
 			Common.Configuration.RegisterDependencies(container);
+			Data.Configuration.RegisterDependencies(container);
 			container.Verify();
 
 			DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
