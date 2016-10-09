@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Passengers.Data.Repositories;
+﻿using Passengers.Data.Repositories;
 using SimpleInjector;
 
 namespace Passengers.Data
