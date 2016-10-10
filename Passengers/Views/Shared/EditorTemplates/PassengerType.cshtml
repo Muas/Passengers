@@ -1,6 +1,18 @@
-﻿@Html.EnumDropDownListFor(m => m, htmlAttributes: new {@class = "selectpicker"})
+﻿@using System.ComponentModel.DataAnnotations
+@using Passengers.Attributes
+@using Passengers.Extensions
+@using Passengers.Models
+@model PassengerType
 
-<script>
+<select name="@Html.NameFor(m => m)" id="@Html.IdFor(m => m)" class="selectpicker">
+    @foreach (PassengerType item in Enum.GetValues(typeof(PassengerType)))
+    {
+        var enumRangeAttribute = item.GetAttribute<EnumRangeAttribute>();
 
-
-</script>
+        <option value="@item" @(item == Model ? "selected" : "")
+                data-min="@(enumRangeAttribute != null ? enumRangeAttribute.Minimum.ToString() : "")"
+                data-max="@(enumRangeAttribute != null ? enumRangeAttribute.Maximum.ToString() : "")">
+            @(item.GetAttribute<DisplayAttribute>().Name)
+        </option>
+    }
+</select>
