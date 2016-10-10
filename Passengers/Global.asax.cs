@@ -21,11 +21,11 @@ namespace Passengers
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
 			var container = new Container();
-			
 			container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
 
-			container.Register(typeof (IModelValidator<>), new[] {Assembly.GetExecutingAssembly()}, Lifestyle.Singleton);
 			container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
+
+			container.Register(typeof (IModelValidator<>), new[] {Assembly.GetExecutingAssembly()}, Lifestyle.Singleton);
 
 			var config = new MapperConfiguration(cfg =>
 			{
@@ -35,8 +35,8 @@ namespace Passengers
 
 			Common.Configuration.RegisterDependencies(container);
 			Data.Configuration.RegisterDependencies(container);
-			container.Verify();
 
+			container.Verify();
 			DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
 		}
 	}

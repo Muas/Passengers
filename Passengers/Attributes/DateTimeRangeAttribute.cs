@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using Passengers.Common.Interfaces;
 
 namespace Passengers.Attributes
 {
 	public class DateTimeRangeAttribute : ValidationAttribute
 	{
 		private DateTime MinDateTime { get;  set; }
-		private DateTime MaxDateTime { get;  set; }
 
 		public DateTimeRangeAttribute(string minDateTime)
 		{
@@ -14,8 +15,6 @@ namespace Passengers.Attributes
 			if (!DateTime.TryParse(minDateTime, out dateTime)) throw new FormatException("minDateTime");
 
 			MinDateTime = dateTime;
-			MaxDateTime = DateTime.UtcNow;
-			ErrorMessage = string.Format("Дата должна быть больше {0} и меньше {1}", MinDateTime.ToString("dd.MM.yyyy"), MaxDateTime.ToString("dd.MM.yyyy"));
 		}
 
 		public override bool IsValid(object value)
@@ -23,11 +22,19 @@ namespace Passengers.Attributes
 			if (value == null) return true;
 
 			DateTime dateTime;
-			if (DateTime.TryParse(value.ToString(), out dateTime))
+			if (!DateTime.TryParse(value.ToString(), out dateTime))
 			{
-				return dateTime >= MinDateTime && dateTime <= MaxDateTime;
+				ErrorMessage = "Неверный формат даты";
+				return false;
 			}
-			throw new Exception();
+
+			var now = DependencyResolver.Current.GetService<IDateTimeProvider>().GetDate();
+			if (dateTime >= MinDateTime && dateTime <= now)
+			{
+				return true;
+			}
+			ErrorMessage = string.Format("Дата должна быть больше {0} и меньше {1}", MinDateTime.ToString("dd.MM.yyyy"), now.ToString("dd.MM.yyyy"));
+			return false;
 		}
 	}
 }
