@@ -20,9 +20,13 @@
         return this.optional(element) || value;
     }, 'Поле Тип пассажира должно быть задано');
 
-    $.validator.addMethod("validDate", function(value, element) {
-        return true;
-    });
+    $.validator.addMethod("validTypeForDate", function(value, element) {
+        var now = new Date();
+        var min = $('#PassengerType').data('min');
+        var max = $('#PassengerType').data('max');
+        var birthDate = moment($('#BirthDate').val(), 'DD.MM.YYYY');
+        return birthDate.add(max, 'y') <= now || birthDate.add(min, 'y') >= now;
+    }, 'Выбранный тип пассажира не соответствует возрасту пассажира');
 
     $.validator.methods.date = function (value, element) { return true; }
    
@@ -34,7 +38,7 @@
             },
             'PassengerType': {
                 passengerTypeRequired: true,
-                validDate: true
+                validTypeForDate: true
             }
         }
     });
