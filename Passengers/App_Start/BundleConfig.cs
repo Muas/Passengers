@@ -22,6 +22,7 @@ namespace Passengers
 				"~/Scripts/bootstrap.js",
 				"~/Scripts/respond.js",
 				"~/Scripts/moment.js",
+				"~/Scripts/moment-with-locales.js",
 				"~/Scripts/bootstrap-select.js",
 				"~/Scripts/bootstrap-datetimepicker.js",
 				"~/Scripts/site.js"
